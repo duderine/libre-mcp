@@ -1,0 +1,27 @@
+.env
+.env.local
+.env.*
+!env.example
+
+# Docker data
+volumes/
+pgdata/
+mongodata/
+redisdata/
+qdrantdata/
+docker-compose.override.yml
+
+# LibreChat data directories
+data-node/
+meili_data_v1.12/
+images/
+uploads/
+logs/
+*.log
+tmp/
+
+# Editor/OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
