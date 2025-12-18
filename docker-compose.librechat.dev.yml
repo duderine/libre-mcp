@@ -10,7 +10,7 @@ services:
       target: node
     volumes:
       - ./dev/agents/dist:/app/node_modules/@librechat/agents/dist
-
+      - ./dev/agents/node_modules:/app/node_modules/@librechat/agents/node_modules
   rag_api:
     image: rag_api:local
     build:

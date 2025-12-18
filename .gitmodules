@@ -10,3 +10,7 @@
 	path = dev/rag_api
 	url = https://github.com/danny-avila/rag_api.git
 	branch = main
+[submodule "dev/librechat-doc"]
+	path = dev/librechat-doc
+	url = git@github.com:faktenforum/librechat.ai.git
+	branch = main
