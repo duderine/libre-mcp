@@ -1,40 +1,48 @@
-# Docker Compose
+# AI Chat Interface
 
-This project uses separate compose files for LibreChat, OpenWebUI, and Firecrawl, all running against OpenRouter.
+Modular Docker Compose setup for LibreChat, Open WebUI, and Firecrawl with Traefik as reverse proxy.
 
 ## Setup
 
-1. Copy env template: `cp env.example .env`
-2. Set required API keys:
-   - `OPENROUTER_API_KEY` (required)
-   - `JINA_API_KEY` (required for reranking - get free key at https://jina.ai/)
-3. For local development, other defaults can be kept as-is. For production, adjust all secrets and credentials.
+1. **Network**: Create the shared proxy network:
+   ```bash
+   docker network create traefik-net
+   ```
 
-## Start services
+2. **Environment**: Copy and configure `.env`:
+   ```bash
+   cp env.example .env
+   ```
+   * Set `DOMAIN` (e.g., `localhost` or `ai.faktenforum.org`)
+   * Set `OPENROUTER_API_KEY`
+   * Set `JINA_API_KEY` (for reranking)
 
-- OpenWebUI: `docker compose -f docker-compose.openwebui.yml up -d`
-- LibreChat: `docker compose -f docker-compose.librechat.yml up -d`
-- Firecrawl: `docker compose -f docker-compose.firecrawl.yml up -d`
-- All together: `docker compose -f docker-compose.openwebui.yml -f docker-compose.librechat.yml -f docker-compose.firecrawl.yml up -d`
+## Services
 
-Dependencies start automatically (Mongo/Redis for LibreChat, PostgreSQL/Redis for Firecrawl).
+Run services using their feature-grouped compose files:
 
-## Data and ports
+| Feature | Commands | Access (Local) |
+| :--- | :--- | :--- |
+| **Proxy** | `docker compose -f docker-compose.traefik.yml up -d` | `http://localhost:8080` (Dashboard) |
+| **LibreChat** | `docker compose -f docker-compose.librechat.yml up -d` | `http://chat.localhost` |
+| **WebUI** | `docker compose -f docker-compose.openwebui.yml up -d` | `http://webui.localhost` |
+| **WebSearch** | `docker compose -f docker-compose.websearch.yml up -d` | `http://searxng.localhost` |
+| **RAG** | `docker compose -f docker-compose.rag.yml up -d` | *Internal* |
+| **Firecrawl** | `docker compose -f docker-compose.firecrawl.yml up -d` | `http://firecrawl.localhost` |
 
-- OpenWebUI: `./volumes/openwebui`, port `3001`
-- LibreChat: Mongo + Redis volumes, port `3002`
-- Firecrawl: PostgreSQL volume (`firecrawl_pgdata`), port `3003`
-
-## Firecrawl
-
-**Admin UI:** `http://localhost:3003/admin/<BULL_AUTH_KEY>/queues` (set `FIRECRAWL_BULL_AUTH_KEY` in `.env`)
-
-**Database issues:** If you see missing table errors, remove the volume and restart:
+### Start All (Recommended)
 ```bash
-docker compose -f docker-compose.firecrawl.yml down
-docker volume rm checkbot_firecrawl_pgdata
-docker compose -f docker-compose.firecrawl.yml up -d
+docker compose -f docker-compose.traefik.yml \
+               -f docker-compose.librechat.yml \
+               -f docker-compose.openwebui.yml \
+               -f docker-compose.websearch.yml \
+               -f docker-compose.rag.yml \
+               -f docker-compose.firecrawl.yml up -d
 ```
+
+## Firecrawl Admin
+`http://firecrawl.localhost/admin/<BULL_AUTH_KEY>/queues`
+(Set `FIRECRAWL_BULL_AUTH_KEY` in `.env`)
 
 ## TODO
 

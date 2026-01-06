@@ -1,7 +1,8 @@
 services:
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
-    env_file: [.env]
+    container_name: openwebui
+    env_file: [ .env ]
     environment:
       OPENAI_API_KEY: ${OPENROUTER_API_KEY}
       OPENAI_API_BASE_URL: ${OPENROUTER_BASE_URL}
@@ -9,10 +10,22 @@ services:
       WEBUI_NAME: Checkbot
       ADMIN_EMAIL: ${OPENWEBUI_ADMIN_EMAIL}
       ADMIN_PASSWORD: ${OPENWEBUI_ADMIN_PASSWORD}
-    ports:
-      - "${OPENWEBUI_PORT:-3001}:8080"
+    # Port removed, handled by Traefik
     volumes:
       - ${OPENWEBUI_VOLUME:-./volumes/openwebui}:/app/backend/data
     restart: unless-stopped
+    networks:
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openwebui.rule=Host(`webui.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.openwebui.entrypoints=web"
+      - "traefik.http.services.openwebui.loadbalancer.server.port=8080"
+      # Secure entrypoint
+      - "traefik.http.routers.openwebui-secure.rule=Host(`webui.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.openwebui-secure.entrypoints=websecure"
+      - "traefik.http.routers.openwebui-secure.tls=true"
 
-
+networks:
+  traefik-net:
+    external: true

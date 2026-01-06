@@ -10,6 +10,7 @@ services:
       - PORT=3000
     networks:
       - firecrawl-network
+      - traefik-net
 
   redis:
     container_name: firecrawl-redis
@@ -43,8 +44,7 @@ services:
     container_name: firecrawl-api
     image: ghcr.io/firecrawl/firecrawl:latest
     restart: always
-    ports:
-      - "${FIRECRAWL_PORT:-3003}:${FIRECRAWL_INTERNAL_PORT:-3002}"
+    # Ports removed, handled by Traefik
     env_file:
       - .env
     environment:
@@ -76,6 +76,7 @@ services:
     command: ["node", "dist/src/harness.js", "--start-docker"]
     networks:
       - firecrawl-network
+      - traefik-net
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
@@ -84,6 +85,15 @@ services:
       timeout: 5s
       retries: 15
       start_period: 120s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.firecrawl.rule=Host(`firecrawl.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.firecrawl.entrypoints=web"
+      - "traefik.http.services.firecrawl.loadbalancer.server.port=3002"
+      # Secure entrypoint
+      - "traefik.http.routers.firecrawl-secure.rule=Host(`firecrawl.${DOMAIN:-localhost}`)"
+      - "firecrawl-secure.entrypoints=websecure"
+      - "firecrawl-secure.tls=true"
 
 volumes:
   firecrawl_pgdata:
@@ -91,4 +101,5 @@ volumes:
 networks:
   firecrawl-network:
     driver: bridge
-
+  traefik-net:
+    external: true
