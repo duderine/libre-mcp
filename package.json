@@ -2,7 +2,12 @@
     "name": "ai-chat-interface",
     "description": "Infrastructure for AI Chat Interface with Traefik, LibreChat, and more",
     "scripts": {
+        "setup": "./scripts/setup-env.ts",
         "generate:portainer": "./scripts/generate-portainer.sh"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@inquirer/prompts": "^8.1.0",
+        "dotenv": "^17.2.3"
+    }
 }

@@ -9,10 +9,14 @@ Modular Docker Compose setup for LibreChat, Open WebUI, and Firecrawl with Traef
    docker network create traefik-net
    ```
 
-2. **Environment**: Copy and configure `.env`:
+2. **Environment**: Initialize or update your `.env` file:
    ```bash
-   cp env.example .env
+   npm run setup
    ```
+   This interactive script will:
+   * Generate secure secrets for all required fields (JWT, Session, etc.)
+   * Prompt you for keys (OpenRouter, Jina)
+   * Use existing `.env` values as defaults if they exist
    * Set `DOMAIN` (e.g., `localhost` or `ai.faktenforum.org`)
    * Set `OPENROUTER_API_KEY`
    * Set `JINA_API_KEY` (for reranking)
