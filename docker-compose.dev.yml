@@ -1,0 +1,98 @@
+# Development Environment - Local Builds & Live Reload
+# Usage: docker compose -f docker-compose.dev.yml up -d
+
+services:
+  # --- INFRASTRUCTURE ---
+  traefik:
+    extends:
+      file: docker-compose.traefik.yml
+      service: traefik
+
+  # --- LIBRECHAT ---
+  mongodb:
+    extends:
+      file: docker-compose.librechat.yml
+      service: mongodb
+  
+  meilisearch:
+    extends:
+      file: docker-compose.librechat.yml
+      service: meilisearch
+
+  api:
+    extends:
+      file: docker-compose.librechat.yml
+      service: api
+    image: librechat:local
+    build:
+      context: ./dev/librechat
+      dockerfile: Dockerfile
+      target: node
+    env_file:
+      - .env
+    volumes:
+      # Mount whole agents folder to ensure correct resolution of internal modules and node_modules
+      - ./dev/agents:/app/node_modules/@librechat/agents
+    environment:
+      NODE_ENV: development
+
+  # --- WEBUI ---
+  openwebui:
+    extends:
+      file: docker-compose.openwebui.yml
+      service: openwebui
+
+  # --- WEBSEARCH ---
+  searxng:
+    extends:
+      file: docker-compose.websearch.yml
+      service: searxng
+
+  firecrawl-api:
+    extends:
+      file: docker-compose.websearch.yml
+      service: firecrawl-api
+
+  playwright-service:
+    extends:
+      file: docker-compose.websearch.yml
+      service: playwright-service
+
+  redis:
+    extends:
+      file: docker-compose.websearch.yml
+      service: redis
+
+  nuq-postgres:
+    extends:
+      file: docker-compose.websearch.yml
+      service: nuq-postgres
+
+  # --- RAG ---
+  vectordb:
+    extends:
+      file: docker-compose.rag.yml
+      service: vectordb
+
+  rag_api:
+    extends:
+      file: docker-compose.rag.yml
+      service: rag_api
+    image: rag_api:local
+    build:
+      context: ./dev/rag_api
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      DEBUG: "true"
+
+networks:
+  traefik-net:
+    external: true
+  firecrawl-network:
+    driver: bridge
+
+volumes:
+  firecrawl_pgdata:
+  pgdata2:

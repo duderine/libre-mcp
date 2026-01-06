@@ -9,24 +9,24 @@ services:
     env_file:
       - .env
     environment:
-      - HOST=${LIBRECHAT_HOST:-0.0.0.0}
-      - MONGO_URI=${LIBRECHAT_MONGO_URI}
-      - MEILI_HOST=${LIBRECHAT_MEILI_HOST:-http://meilisearch:7700}
-      - RAG_PORT=${LIBRECHAT_RAG_PORT:-8000}
-      - RAG_API_URL=${LIBRECHAT_RAG_API_URL:-http://rag_api:8000}
-      - SESSION_SECRET=${LIBRECHAT_SESSION_SECRET}
-      - JWT_SECRET=${LIBRECHAT_JWT_SECRET}
-      - JWT_REFRESH_SECRET=${LIBRECHAT_JWT_REFRESH_SECRET}
-      - CREDS_KEY=${LIBRECHAT_CREDS_KEY}
-      - CREDS_IV=${LIBRECHAT_CREDS_IV}
-      - ALLOW_REGISTRATION=${LIBRECHAT_ALLOW_REGISTRATION:-true}
-      - OPENROUTER_KEY=${OPENROUTER_API_KEY}
-      - OPENROUTER_BASE_URL=${OPENROUTER_BASE_URL}
-      - OPENROUTER_SITE_URL=http://chat.${DOMAIN:-localhost}
-      - OPENROUTER_APP_NAME=${OPENROUTER_APP_NAME}
-      - SEARXNG_BASE_URL=http://searxng.${DOMAIN:-localhost}/
-      - SEARCH=true
-      - MEILI_MASTER_KEY=${LIBRECHAT_MEILI_MASTER_KEY}
+      HOST: ${LIBRECHAT_HOST:-0.0.0.0}
+      MONGO_URI: ${LIBRECHAT_MONGO_URI}
+      MEILI_HOST: ${LIBRECHAT_MEILI_HOST:-http://meilisearch:7700}
+      RAG_PORT: ${LIBRECHAT_RAG_PORT:-8000}
+      RAG_API_URL: ${LIBRECHAT_RAG_API_URL:-http://rag_api:8000}
+      SESSION_SECRET: ${LIBRECHAT_SESSION_SECRET}
+      JWT_SECRET: ${LIBRECHAT_JWT_SECRET}
+      JWT_REFRESH_SECRET: ${LIBRECHAT_JWT_REFRESH_SECRET}
+      CREDS_KEY: ${LIBRECHAT_CREDS_KEY}
+      CREDS_IV: ${LIBRECHAT_CREDS_IV}
+      ALLOW_REGISTRATION: ${LIBRECHAT_ALLOW_REGISTRATION:-true}
+      OPENROUTER_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL}
+      OPENROUTER_SITE_URL: http://chat.${DOMAIN:-localhost}
+      OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME}
+      SEARXNG_BASE_URL: http://searxng.${DOMAIN:-localhost}/
+      SEARCH: "true"
+      MEILI_MASTER_KEY: ${LIBRECHAT_MEILI_MASTER_KEY}
     volumes:
       - type: bind
         source: ./.env
@@ -72,9 +72,9 @@ services:
     env_file:
       - .env
     environment:
-      - MEILI_HOST=${LIBRECHAT_MEILI_HOST:-http://meilisearch:7700}
-      - MEILI_NO_ANALYTICS=true
-      - MEILI_MASTER_KEY=${LIBRECHAT_MEILI_MASTER_KEY}
+      MEILI_HOST: ${LIBRECHAT_MEILI_HOST:-http://meilisearch:7700}
+      MEILI_NO_ANALYTICS: "true"
+      MEILI_MASTER_KEY: ${LIBRECHAT_MEILI_MASTER_KEY}
     volumes:
       - ./meili_data_v1.12:/meili_data
     networks:

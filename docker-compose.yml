@@ -1,0 +1,9 @@
+# Standard Environment - Official Images
+# Usage: docker compose up -d
+
+include:
+  - docker-compose.traefik.yml
+  - docker-compose.librechat.yml
+  - docker-compose.openwebui.yml
+  - docker-compose.websearch.yml
+  - docker-compose.rag.yml

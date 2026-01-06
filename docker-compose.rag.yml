@@ -20,11 +20,15 @@ services:
     env_file:
       - .env
     environment:
-      - DB_HOST=vectordb
-      - RAG_PORT=${LIBRECHAT_RAG_PORT:-8000}
-      - RAG_OPENAI_API_KEY=${RAG_OPENAI_API_KEY:-${OPENROUTER_API_KEY:-}}
-      - RAG_OPENAI_BASEURL=${RAG_OPENAI_BASEURL:-${OPENROUTER_BASE_URL:-}}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-${OPENROUTER_API_KEY:-}}
+      DB_HOST: vectordb
+      RAG_PORT: ${LIBRECHAT_RAG_PORT:-8000}
+      RAG_OPENAI_API_KEY: ${RAG_OPENAI_API_KEY:-${OPENROUTER_API_KEY:-}}
+      RAG_OPENAI_BASEURL: ${RAG_OPENAI_BASEURL:-${OPENROUTER_BASE_URL:-}}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-${OPENROUTER_API_KEY:-}}
+      # Force embeddings provider to use OpenRouter if keys are shared
+      EMBEDDINGS_PROVIDER: ${EMBEDDINGS_PROVIDER:-openai}
+      EMBEDDINGS_MODEL: ${EMBEDDINGS_MODEL:-text-embedding-3-small}
+      OPENAI_API_BASE: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
     restart: always
     depends_on:
       - vectordb

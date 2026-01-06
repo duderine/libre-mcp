@@ -26,18 +26,45 @@ Run services using their feature-grouped compose files:
 | **Proxy** | `docker compose -f docker-compose.traefik.yml up -d` | `http://localhost:8080` (Dashboard) |
 | **LibreChat** | `docker compose -f docker-compose.librechat.yml up -d` | `http://chat.localhost` |
 | **WebUI** | `docker compose -f docker-compose.openwebui.yml up -d` | `http://webui.localhost` |
-| **WebSearch** | `docker compose -f docker-compose.websearch.yml up -d` | `http://searxng.localhost` |
+| **WebSearch** | `docker compose -f docker-compose.websearch.yml up -d` | `http://searxng.localhost`, `http://firecrawl.localhost` |
 | **RAG** | `docker compose -f docker-compose.rag.yml up -d` | *Internal* |
-| **Firecrawl** | `docker compose -f docker-compose.firecrawl.yml up -d` | `http://firecrawl.localhost` |
 
-### Start All (Recommended)
+### Modes
+
+#### Standard (Official Images)
+Uses official hub images.
 ```bash
-docker compose -f docker-compose.traefik.yml \
-               -f docker-compose.librechat.yml \
-               -f docker-compose.openwebui.yml \
-               -f docker-compose.websearch.yml \
-               -f docker-compose.rag.yml \
-               -f docker-compose.firecrawl.yml up -d
+docker compose up -d
+```
+
+#### Development (Local Builds)
+Builds LibreChat and RAG components from local source.
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+
+#### Production (Stable Release + SSL)
+Enables Let's Encrypt SSL and security hardening.
+```bash
+docker compose -f docker-compose.prod.yml up -d
+```
+
+#### Modular (Custom Stack)
+Individual modules can still be run separately for testing:
+```bash
+docker compose -f docker-compose.traefik.yml up -d
+```
+
+#### Base Stack (No Overrides)
+To run the standard stack using official images without specific production hardening:
+```bash
+docker compose \
+  -f docker-compose.traefik.yml \
+  -f docker-compose.librechat.yml \
+  -f docker-compose.websearch.yml \
+  -f docker-compose.rag.yml \
+  -f docker-compose.openwebui.yml \
+  up -d
 ```
 
 ## Firecrawl Admin

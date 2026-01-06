@@ -6,8 +6,7 @@ services:
     environment:
       OPENAI_API_KEY: ${OPENROUTER_API_KEY}
       OPENAI_API_BASE_URL: ${OPENROUTER_BASE_URL}
-      DEFAULT_MODEL: ${OPENROUTER_MODEL}
-      WEBUI_NAME: Checkbot
+      DEFAULT_MODEL: ${OPENWEBUI_DEFAULT_MODEL:-google/gemini-2.0-flash-exp:free}
       ADMIN_EMAIL: ${OPENWEBUI_ADMIN_EMAIL}
       ADMIN_PASSWORD: ${OPENWEBUI_ADMIN_PASSWORD}
     # Port removed, handled by Traefik
