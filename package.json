@@ -1,0 +1,8 @@
+{
+    "name": "ai-chat-interface",
+    "description": "Infrastructure for AI Chat Interface with Traefik, LibreChat, and more",
+    "scripts": {
+        "generate:portainer": "./scripts/generate-portainer.sh"
+    },
+    "license": "MIT"
+}

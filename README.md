@@ -29,6 +29,10 @@ Run services using their feature-grouped compose files:
 | **WebSearch** | `docker compose -f docker-compose.websearch.yml up -d` | `http://searxng.localhost`, `http://firecrawl.localhost` |
 | **RAG** | `docker compose -f docker-compose.rag.yml up -d` | *Internal* |
 
+## Usage
+
+Select the stack you want to run:
+
 ### Modes
 
 #### Standard (Official Images)
@@ -49,22 +53,23 @@ Enables Let's Encrypt SSL and security hardening.
 docker compose -f docker-compose.prod.yml up -d
 ```
 
-#### Modular (Custom Stack)
-Individual modules can still be run separately for testing:
+### Deployment (Portainer)
+
+Generate a secure, flattened template (contains placeholders, no secrets) for Portainer:
+
 ```bash
-docker compose -f docker-compose.traefik.yml up -d
+npm run generate:portainer
 ```
 
-#### Base Stack (No Overrides)
-To run the standard stack using official images without specific production hardening:
+Point Portainer to `docker-compose.portainer.yml` (Git or Web Editor) and define your secrets in the **Environment variables** section of the stack.
+
+### Advanced Usage
+
+You can still use standard `docker compose` commands with the feature-grouped files:
+
 ```bash
-docker compose \
-  -f docker-compose.traefik.yml \
-  -f docker-compose.librechat.yml \
-  -f docker-compose.websearch.yml \
-  -f docker-compose.rag.yml \
-  -f docker-compose.openwebui.yml \
-  up -d
+# Start only the proxy and LibreChat
+docker compose -f docker-compose.traefik.yml -f docker-compose.librechat.yml up -d
 ```
 
 ## Firecrawl Admin
