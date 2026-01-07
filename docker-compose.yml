@@ -1,9 +1,65 @@
-# Standard Environment - Official Images
+# Standard Environment - Official Images (Local Development)
 # Usage: docker compose up -d
+services:
+  # --- INFRASTRUCTURE ---
+  traefik:
+    extends: { file: docker-compose.traefik.yml, service: traefik }
+    env_file: .env
 
-include:
-  - docker-compose.traefik.yml
-  - docker-compose.librechat.yml
-  - docker-compose.openwebui.yml
-  - docker-compose.websearch.yml
-  - docker-compose.rag.yml
+  # --- LIBRECHAT ---
+  mongodb:
+    extends: { file: docker-compose.librechat.yml, service: mongodb }
+    env_file: .env
+  
+  meilisearch:
+    extends: { file: docker-compose.librechat.yml, service: meilisearch }
+    env_file: .env
+
+  api:
+    extends: { file: docker-compose.librechat.yml, service: api }
+    env_file: .env
+
+  # --- WEBUI ---
+  openwebui:
+    extends: { file: docker-compose.openwebui.yml, service: openwebui }
+    env_file: .env
+
+  # --- WEBSEARCH ---
+  searxng:
+    extends: { file: docker-compose.websearch.yml, service: searxng }
+    env_file: .env
+
+  firecrawl-api:
+    extends: { file: docker-compose.websearch.yml, service: firecrawl-api }
+    env_file: .env
+
+  playwright-service:
+    extends: { file: docker-compose.websearch.yml, service: playwright-service }
+    env_file: .env
+
+  redis:
+    extends: { file: docker-compose.websearch.yml, service: redis }
+    env_file: .env
+
+  nuq-postgres:
+    extends: { file: docker-compose.websearch.yml, service: nuq-postgres }
+    env_file: .env
+
+  # --- RAG ---
+  vectordb:
+    extends: { file: docker-compose.rag.yml, service: vectordb }
+    env_file: .env
+
+  rag_api:
+    extends: { file: docker-compose.rag.yml, service: rag_api }
+    env_file: .env
+
+networks:
+  traefik-net:
+    driver: bridge
+  firecrawl-network:
+    driver: bridge
+
+volumes:
+  firecrawl_pgdata:
+  pgdata2:

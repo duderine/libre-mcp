@@ -12,10 +12,17 @@ if [ ! -f "$SOURCE_FILE" ]; then
     exit 1
 fi
 
-# Use docker compose config to flatten the tree
-# We use --no-interpolate to keep environment variable placeholders (${VAR})
-# We use yq to remove env_file blocks as Portainer manages env via its own UI.
-docker compose -f "$SOURCE_FILE" config --no-interpolate | yq 'del(.services[].env_file)' > "$OUTPUT_FILE"
+# Flatten into a single file without interpolating environment variable values
+docker compose -f "$SOURCE_FILE" config --no-interpolate > "$OUTPUT_FILE"
+
+# Clean up the output:
+# 1. Remove the 'include' block at the top
+# 2. Remove any 'env_file' blocks (Portainer handles these via UI/Advanced mode)
+# 3. Use an indentation-aware approach to remove env_file and its contents
+temp_file=$(mktemp)
+grep -v "^include:" "$OUTPUT_FILE" | grep -v "^  - docker-compose\." | \
+sed '/env_file:/,+2d' > "$temp_file"
+mv "$temp_file" "$OUTPUT_FILE"
 
 if [ $? -eq 0 ]; then
     echo "Successfully generated $OUTPUT_FILE"

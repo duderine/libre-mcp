@@ -2,11 +2,9 @@ services:
   vectordb:
     container_name: vectordb
     image: pgvector/pgvector:0.8.0-pg15-trixie
-    env_file:
-      - .env
     environment:
-      POSTGRES_DB: ${LIBRECHAT_VECTORDB_DB:-mydatabase}
-      POSTGRES_USER: ${LIBRECHAT_VECTORDB_USER:-myuser}
+      POSTGRES_DB: ${LIBRECHAT_VECTORDB_DB:-vectordb}
+      POSTGRES_USER: ${LIBRECHAT_VECTORDB_USER:-vectordb}
       POSTGRES_PASSWORD: ${LIBRECHAT_VECTORDB_PASSWORD:-mypassword}
     restart: always
     volumes:
@@ -17,10 +15,11 @@ services:
   rag_api:
     container_name: rag_api
     image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
-    env_file:
-      - .env
     environment:
       DB_HOST: vectordb
+      POSTGRES_DB: ${LIBRECHAT_VECTORDB_DB:-vectordb}
+      POSTGRES_USER: ${LIBRECHAT_VECTORDB_USER:-vectordb}
+      POSTGRES_PASSWORD: ${LIBRECHAT_VECTORDB_PASSWORD:-mypassword}
       RAG_PORT: ${LIBRECHAT_RAG_PORT:-8000}
       RAG_OPENAI_API_KEY: ${RAG_OPENAI_API_KEY:-${OPENROUTER_API_KEY:-}}
       RAG_OPENAI_BASEURL: ${RAG_OPENAI_BASEURL:-${OPENROUTER_BASE_URL:-}}

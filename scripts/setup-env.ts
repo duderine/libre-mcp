@@ -56,18 +56,14 @@ const PROMPTS: Record<string, PromptConfig> = {
     'LIBRECHAT_MONGO_DATABASE': { message: 'Mongo Database Name:', type: 'input', defaultGen: () => 'librechat' },
 
     // VectorDB
-    'LIBRECHAT_VECTORDB_USER': { message: 'VectorDB (Postgres) Username:', type: 'input', defaultGen: () => genShortId('dbuser') },
     'LIBRECHAT_VECTORDB_PASSWORD': { message: 'VectorDB (Postgres) Password:', type: 'password', defaultGen: () => genSecret(16) },
-    'LIBRECHAT_VECTORDB_DB': { message: 'VectorDB (Postgres) Database Name:', type: 'input', defaultGen: () => 'vectordb' },
 
     // OpenWebUI (Currently disabled for production)
     // 'OPENWEBUI_ADMIN_EMAIL': { message: 'OpenWebUI Admin Email:', type: 'input' },
     // 'OPENWEBUI_ADMIN_PASSWORD': { message: 'OpenWebUI Admin Password:', type: 'password', defaultGen: () => genSecret(16) },
 
     // Firecrawl
-    'FIRECRAWL_POSTGRES_USER': { message: 'Firecrawl Postgres Username:', type: 'input', defaultGen: () => genShortId('firecrawl') },
     'FIRECRAWL_POSTGRES_PASSWORD': { message: 'Firecrawl Postgres Password:', type: 'password', defaultGen: () => genSecret(16) },
-    'FIRECRAWL_POSTGRES_DB': { message: 'Firecrawl Postgres Database Name:', type: 'input', defaultGen: () => 'firecrawl' },
 };
 
 async function main() {

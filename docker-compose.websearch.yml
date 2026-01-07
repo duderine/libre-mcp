@@ -55,29 +55,27 @@ services:
   nuq-postgres:
     container_name: firecrawl-postgres
     image: ghcr.io/firecrawl/nuq-postgres:latest
-    env_file:
-      - .env
     environment:
-      POSTGRES_DB: ${FIRECRAWL_POSTGRES_DB:-postgres}
+      POSTGRES_DB: ${FIRECRAWL_POSTGRES_DB:-firecrawl}
       POSTGRES_USER: ${FIRECRAWL_POSTGRES_USER:-firecrawl}
       POSTGRES_PASSWORD: ${FIRECRAWL_POSTGRES_PASSWORD:-firecrawl}
+    command: ["postgres", "-c", "cron.database_name=${FIRECRAWL_POSTGRES_DB:-firecrawl}"]
     restart: always
     volumes:
       - firecrawl_pgdata:/var/lib/postgresql/data
     networks:
       - firecrawl-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${FIRECRAWL_POSTGRES_USER:-firecrawl} -d ${FIRECRAWL_POSTGRES_DB:-postgres}"]
-      interval: 5s
+      test: ["CMD-SHELL", "pg_isready -U ${FIRECRAWL_POSTGRES_USER}"]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
 
   firecrawl-api:
     container_name: firecrawl-api
     image: ghcr.io/firecrawl/firecrawl:latest
     restart: always
-    env_file:
-      - .env
     environment:
       HOST: 0.0.0.0
       PORT: ${FIRECRAWL_INTERNAL_PORT:-3002}
@@ -90,7 +88,7 @@ services:
       USE_DB_AUTHENTICATION: ${USE_DB_AUTHENTICATION:-false}
       POSTGRES_USER: ${FIRECRAWL_POSTGRES_USER:-firecrawl}
       POSTGRES_PASSWORD: ${FIRECRAWL_POSTGRES_PASSWORD:-firecrawl}
-      POSTGRES_DB: ${FIRECRAWL_POSTGRES_DB:-postgres}
+      POSTGRES_DB: ${FIRECRAWL_POSTGRES_DB:-firecrawl}
       POSTGRES_PORT: 5432
       POSTGRES_HOST: ${FIRECRAWL_POSTGRES_HOST:-nuq-postgres}
       OPENAI_API_KEY: ${OPENROUTER_API_KEY}

@@ -7,17 +7,20 @@ services:
     extends:
       file: docker-compose.traefik.yml
       service: traefik
+    env_file: .env
 
   # --- LIBRECHAT ---
   mongodb:
     extends:
       file: docker-compose.librechat.yml
       service: mongodb
+    env_file: .env
   
   meilisearch:
     extends:
       file: docker-compose.librechat.yml
       service: meilisearch
+    env_file: .env
 
   api:
     extends:
@@ -28,8 +31,7 @@ services:
       context: ./dev/librechat
       dockerfile: Dockerfile
       target: node
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       # Mount whole agents folder to ensure correct resolution of internal modules and node_modules
       - ./dev/agents:/app/node_modules/@librechat/agents
@@ -41,38 +43,45 @@ services:
     extends:
       file: docker-compose.openwebui.yml
       service: openwebui
+    env_file: .env
 
   # --- WEBSEARCH ---
   searxng:
     extends:
       file: docker-compose.websearch.yml
       service: searxng
+    env_file: .env
 
   firecrawl-api:
     extends:
       file: docker-compose.websearch.yml
       service: firecrawl-api
+    env_file: .env
 
   playwright-service:
     extends:
       file: docker-compose.websearch.yml
       service: playwright-service
+    env_file: .env
 
   redis:
     extends:
       file: docker-compose.websearch.yml
       service: redis
+    env_file: .env
 
   nuq-postgres:
     extends:
       file: docker-compose.websearch.yml
       service: nuq-postgres
+    env_file: .env
 
   # --- RAG ---
   vectordb:
     extends:
       file: docker-compose.rag.yml
       service: vectordb
+    env_file: .env
 
   rag_api:
     extends:
@@ -82,8 +91,7 @@ services:
     build:
       context: ./dev/rag_api
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    env_file: .env
     environment:
       DEBUG: "true"
 

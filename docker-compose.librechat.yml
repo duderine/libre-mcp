@@ -4,10 +4,6 @@ services:
     image: ghcr.io/danny-avila/librechat-dev:latest
     restart: always
     user: "${UID:-1000}:${GID:-1000}"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    env_file:
-      - .env
     environment:
       HOST: ${LIBRECHAT_HOST:-0.0.0.0}
       MONGO_URI: ${LIBRECHAT_MONGO_URI}
@@ -28,9 +24,6 @@ services:
       SEARCH: "true"
       MEILI_MASTER_KEY: ${LIBRECHAT_MEILI_MASTER_KEY}
     volumes:
-      - type: bind
-        source: ./.env
-        target: /app/.env
       - ./images:/app/client/public/images
       - ./uploads:/app/uploads
       - ./logs:/app/logs
@@ -67,9 +60,6 @@ services:
     container_name: chat-meilisearch
     image: getmeili/meilisearch:v1.12.3
     restart: always
-    user: "${UID:-1000}:${GID:-1000}"
-    env_file:
-      - .env
     environment:
       MEILI_HOST: ${LIBRECHAT_MEILI_HOST:-http://meilisearch:7700}
       MEILI_NO_ANALYTICS: "true"

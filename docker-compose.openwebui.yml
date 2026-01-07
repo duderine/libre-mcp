@@ -2,7 +2,6 @@ services:
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: openwebui
-    env_file: [ .env ]
     environment:
       OPENAI_API_KEY: ${OPENROUTER_API_KEY}
       OPENAI_API_BASE_URL: ${OPENROUTER_BASE_URL}
