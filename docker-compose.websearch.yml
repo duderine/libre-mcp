@@ -72,6 +72,21 @@ services:
       retries: 5
       start_period: 10s
 
+  rabbitmq:
+    container_name: firecrawl-rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${FIRECRAWL_RABBITMQ_USER:-firecrawl}
+      RABBITMQ_DEFAULT_PASS: ${FIRECRAWL_RABBITMQ_PASSWORD:-firecrawl}
+    networks:
+      - firecrawl-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   firecrawl-api:
     container_name: firecrawl-api
     image: ghcr.io/firecrawl/firecrawl:latest
@@ -96,15 +111,17 @@ services:
       MODEL_NAME: ${FIRECRAWL_LLM_MODEL:-gpt-4o}
       BULL_AUTH_KEY: ${FIRECRAWL_BULL_AUTH_KEY:-}
       NUQ_DATABASE_URL: postgres://${FIRECRAWL_POSTGRES_USER:-firecrawl}:${FIRECRAWL_POSTGRES_PASSWORD:-firecrawl}@${FIRECRAWL_POSTGRES_HOST:-nuq-postgres}:5432/${FIRECRAWL_POSTGRES_DB:-firecrawl}
-      # Force all workers to use our lightweight stack (Redis/Postgres) instead of RabbitMQ
-      USE_RABBITMQ: "false"
-      EXTRACTOR_QUEUE_TYPE: redis
+      NUQ_RABBITMQ_URL: amqp://${FIRECRAWL_RABBITMQ_USER:-firecrawl}:${FIRECRAWL_RABBITMQ_PASSWORD:-firecrawl}@rabbitmq:5672
+      # Use the official RabbitMQ stack for extraction jobs as required by the image
+      USE_RABBITMQ: "true"
     depends_on:
       redis:
         condition: service_started
       playwright-service:
         condition: service_started
       nuq-postgres:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     command: ["node", "dist/src/harness.js", "--start-docker"]
     networks:

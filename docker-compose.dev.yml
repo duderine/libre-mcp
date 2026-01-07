@@ -82,6 +82,12 @@ services:
       service: nuq-postgres
     env_file: .env
 
+  rabbitmq:
+    extends:
+      file: docker-compose.websearch.yml
+      service: rabbitmq
+    env_file: .env
+
   # --- RAG ---
   vectordb:
     extends:

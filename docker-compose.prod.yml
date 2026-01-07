@@ -52,6 +52,10 @@ services:
     extends: { file: docker-compose.websearch.yml, service: nuq-postgres }
     restart: always
 
+  rabbitmq:
+    extends: { file: docker-compose.websearch.yml, service: rabbitmq }
+    restart: always
+
   # --- RAG ---
   vectordb:
     extends: { file: docker-compose.rag.yml, service: vectordb }

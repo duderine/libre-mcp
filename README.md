@@ -16,6 +16,7 @@ Modular Docker Compose setup for LibreChat, Open WebUI, and Firecrawl with Traef
    This interactive script will:
    * Generate secure secrets for all required fields (JWT, Session, etc.)
    * Prompt you for keys (OpenRouter, Jina)
+   * Set RabbitMQ credentials for Firecrawl stability
    * Use existing `.env` values as defaults if they exist
    * Set `DOMAIN` (e.g., `localhost` or `ai.faktenforum.org`)
    * Set `OPENROUTER_API_KEY`
