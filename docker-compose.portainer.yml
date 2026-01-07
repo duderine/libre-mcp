@@ -185,32 +185,6 @@ services:
         target: /var/lib/postgresql/data
         type: volume
         volume: {}
-  openwebui:
-    container_name: openwebui
-    environment:
-      ADMIN_EMAIL: ${OPENWEBUI_ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${OPENWEBUI_ADMIN_PASSWORD}
-      DEFAULT_MODEL: ${OPENWEBUI_DEFAULT_MODEL:-google/gemini-2.0-flash-exp:free}
-      OPENAI_API_BASE_URL: ${OPENROUTER_BASE_URL}
-      OPENAI_API_KEY: ${OPENROUTER_API_KEY}
-    image: ghcr.io/open-webui/open-webui:main
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.openwebui.rule=Host(`webui.${DOMAIN:-localhost}`)
-      - traefik.http.routers.openwebui.entrypoints=web
-      - traefik.http.services.openwebui.loadbalancer.server.port=8080
-      - traefik.http.routers.openwebui-secure.rule=Host(`webui.${DOMAIN:-localhost}`)
-      - traefik.http.routers.openwebui-secure.entrypoints=websecure
-      - traefik.http.routers.openwebui-secure.tls=true
-      - traefik.http.routers.openwebui-secure.tls.certresolver=le
-    networks:
-      traefik-net: null
-    restart: always
-    volumes:
-      - source: ${OPENWEBUI_VOLUME
-        target: -./volumes/openwebui}
-        type: volume
-        volume: {}
   playwright-service:
     container_name: firecrawl-playwright
     environment:

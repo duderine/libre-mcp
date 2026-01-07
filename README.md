@@ -59,13 +59,18 @@ docker compose -f docker-compose.prod.yml up -d
 
 ### Deployment (Portainer)
 
-Generate a secure, flattened template (contains placeholders, no secrets) for Portainer:
+1. **Generate Template**: Create a flattened, secure template for Portainer:
+   ```bash
+   npm run generate:portainer
+   ```
 
-```bash
-npm run generate:portainer
-```
+2. **Generate Environment**: (Optional) Generate a specific environment file for Portainer's "Advanced mode":
+   ```bash
+   npm run setup:portainer
+   ```
+   This creates `docker-compose.portainer.env` without affecting your local `.env`.
 
-Point Portainer to `docker-compose.portainer.yml` (Git or Web Editor) and define your secrets in the **Environment variables** section of the stack.
+3. **Deploy**: Point Portainer to `docker-compose.portainer.yml` (Git or Web Editor) and paste the contents of the generated environment file into the **Environment variables** (Advanced mode) section.
 
 ### Advanced Usage
 

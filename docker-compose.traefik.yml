@@ -3,15 +3,15 @@ services:
     image: traefik:v3.1
     container_name: traefik
     command:
-      - "--log.level=${TRAEFIK_LOG_LEVEL:-INFO}"
+      - "--log.level=INFO"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      # Uncomment and configure for production
+      # Uncomment and configure for production if not using standalone Traefik
       # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      # - "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_EMAIL}"
+      # - "--certificatesresolvers.letsencrypt.acme.email=admin@example.com"
       # - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"

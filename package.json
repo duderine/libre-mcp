@@ -3,6 +3,7 @@
     "description": "Infrastructure for AI Chat Interface with Traefik, LibreChat, and more",
     "scripts": {
         "setup": "./scripts/setup-env.ts",
+        "setup:portainer": "./scripts/setup-env.ts --portainer",
         "generate:portainer": "./scripts/generate-portainer.sh"
     },
     "license": "MIT",

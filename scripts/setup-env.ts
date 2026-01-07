@@ -46,8 +46,7 @@ interface PromptConfig {
  * Variables that should prompt the user
  */
 const PROMPTS: Record<string, PromptConfig> = {
-    'DOMAIN': { message: 'Domain or IP (e.g. localhost or example.com):', type: 'input' },
-    'TRAEFIK_EMAIL': { message: 'Admin Email for Traefik/SSL:', type: 'input' },
+    'DOMAIN': { message: 'Domain or IP (e.g. localhost or ai.faktenforum.org):', type: 'input' },
     'OPENROUTER_API_KEY': { message: 'OpenRouter API Key:', type: 'password' },
     'JINA_API_KEY': { message: 'Jina API Key (optional, press enter to skip):', type: 'input' },
 
@@ -61,9 +60,9 @@ const PROMPTS: Record<string, PromptConfig> = {
     'LIBRECHAT_VECTORDB_PASSWORD': { message: 'VectorDB (Postgres) Password:', type: 'password', defaultGen: () => genSecret(16) },
     'LIBRECHAT_VECTORDB_DB': { message: 'VectorDB (Postgres) Database Name:', type: 'input', defaultGen: () => 'vectordb' },
 
-    // OpenWebUI
-    'OPENWEBUI_ADMIN_EMAIL': { message: 'OpenWebUI Admin Email:', type: 'input' },
-    'OPENWEBUI_ADMIN_PASSWORD': { message: 'OpenWebUI Admin Password:', type: 'password', defaultGen: () => genSecret(16) },
+    // OpenWebUI (Currently disabled for production)
+    // 'OPENWEBUI_ADMIN_EMAIL': { message: 'OpenWebUI Admin Email:', type: 'input' },
+    // 'OPENWEBUI_ADMIN_PASSWORD': { message: 'OpenWebUI Admin Password:', type: 'password', defaultGen: () => genSecret(16) },
 
     // Firecrawl
     'FIRECRAWL_POSTGRES_USER': { message: 'Firecrawl Postgres Username:', type: 'input', defaultGen: () => genShortId('firecrawl') },
@@ -72,7 +71,11 @@ const PROMPTS: Record<string, PromptConfig> = {
 };
 
 async function main() {
-    console.log('\n🚀 AI Chat Interface - Environment Setup (TypeScript)\n');
+    const args = process.argv.slice(2);
+    const isPortainerMode = args.includes('--portainer');
+    const targetFile = isPortainerMode ? path.join(ROOT_DIR, 'docker-compose.portainer.env') : ENV_FILE;
+
+    console.log(`\n🚀 AI Chat Interface - Environment Setup (TypeScript)${isPortainerMode ? ' [Portainer Mode]' : ''}\n`);
 
     // 1. Load existing .env if it exists
     let existingEnv: Record<string, string> = {};
@@ -144,9 +147,14 @@ async function main() {
         finalEnvLines.push(`${key}=${currentValue !== undefined ? currentValue : defaultValue}`);
     }
 
-    // 3. Write final .env
-    fs.writeFileSync(ENV_FILE, finalEnvLines.join('\n'));
-    console.log('\n✅ Setup complete! Your .env file has been updated.\n');
+    // 3. Write final file
+    fs.writeFileSync(targetFile, finalEnvLines.join('\n'));
+    if (isPortainerMode) {
+        console.log(`\n✅ Portainer setup complete! Values written to ${path.basename(targetFile)}`);
+        console.log('You can copy the contents of this file into Portainer\'s "Advanced Mode" environment section.');
+    } else {
+        console.log('\n✅ Setup complete! Your .env file has been updated.\n');
+    }
 }
 
 main().catch(err => {
