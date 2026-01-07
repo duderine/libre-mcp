@@ -51,7 +51,6 @@ services:
       - "traefik.http.routers.librechat-secure.rule=Host(`chat.${DOMAIN:-localhost}`)"
       - "traefik.http.routers.librechat-secure.entrypoints=websecure"
       - "traefik.http.routers.librechat-secure.tls=true"
-      # - "traefik.http.routers.librechat-secure.tls.certresolver=letsencrypt"
 
   mongodb:
     container_name: chat-mongodb
