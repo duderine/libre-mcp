@@ -169,6 +169,7 @@ services:
       - app-net
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=ai-chat-interface_traefik-net"
       - "traefik.http.routers.librechat.rule=Host(`chat.${DOMAIN:-localhost}`)"
       - "traefik.http.routers.librechat.entrypoints=web"
       - "traefik.http.services.librechat.loadbalancer.server.port=3080"
