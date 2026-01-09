@@ -22,11 +22,6 @@ const PROD_EXAMPLE_FILE = path.join(ROOT_DIR, 'env.prod.example');
 const genSecret = (length: number = 32): string => crypto.randomBytes(length).toString('hex');
 
 /**
- * Generate a random short string for usernames/dbnames
- */
-const genShortId = (prefix: string): string => `${prefix}_${crypto.randomBytes(3).toString('hex')}`;
-
-/**
  * Check if a value contains variable expansions (e.g., ${VAR_NAME})
  */
 const containsVariableExpansion = (value: string): boolean => {
@@ -93,6 +88,7 @@ const PROMPTS: Record<string, PromptConfig> = {
     // Email (Production only)
     'EMAIL_PASSWORD': { message: 'SendGrid API Key (for email verification):', type: 'password', prodOnly: true },
     'EMAIL_FROM': { message: 'Email From Address (e.g., noreply@faktenforum.org):', type: 'input', prodOnly: true },
+    'LIBRECHAT_DEFAULT_ADMINS': { message: 'Default LibreChat Admin Emails (comma-separated, optional):', type: 'input' },
 };
 
 /**

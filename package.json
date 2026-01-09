@@ -2,6 +2,9 @@
     "name": "ai-chat-interface",
     "description": "Infrastructure for AI Chat Interface with Traefik, LibreChat, and more",
     "type": "module",
+    "workspaces": [
+        "packages/*"
+    ],
     "scripts": {
         "setup": "./scripts/setup-env.ts",
         "setup:yes": "./scripts/setup-env.ts --yes",
