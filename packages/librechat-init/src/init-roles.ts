@@ -32,15 +32,15 @@ interface Config {
 }
 
 // Configuration
-// Read roles.json from the source config directory (in Docker image at /app/config/roles.json)
-// The config directory is copied to /app/config/ during Docker build
-const configPath = join(__dirname, '../config/roles.json');
+// Read roles.json from /app/data/roles.json (copied during Docker build)
+// This location is not overwritten by the librechat-config volume mount
+const configPath = '/app/data/roles.json';
 let config: Config;
 try {
   config = JSON.parse(readFileSync(configPath, 'utf-8'));
 } catch (error) {
-  // Fallback: try absolute path in case __dirname resolution is different
-  const fallbackPath = '/app/config/roles.json';
+  // Fallback: try original location in case volume is not mounted
+  const fallbackPath = join(__dirname, '../config/roles.json');
   try {
     config = JSON.parse(readFileSync(fallbackPath, 'utf-8'));
   } catch {
