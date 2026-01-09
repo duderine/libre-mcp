@@ -1,6 +1,6 @@
 # TODO
 
-## Authentication & Security
+## Security
 
 ### LDAP/Active Directory Integration
 - [ ] Configure LDAP server connection
@@ -8,16 +8,10 @@
 - [ ] Test LDAP login flow
 - [ ] Document LDAP configuration
 
-**Resources:**
-- [LibreChat LDAP Documentation](dev/librechat-doc/pages/docs/configuration/authentication/ldap.mdx)
+**Resources:** [LibreChat LDAP Documentation](dev/librechat-doc/pages/docs/configuration/authentication/ldap.mdx)
 
-### SearXNG Security
-- [ ] Remove public Traefik exposure for SearXNG (only internal Docker network access needed)
-- [ ] Enable rate-limiting in SearXNG config (`limiter: true`)
-- [ ] Generate strong `SEARXNG_SECRET_KEY` for production
-- [ ] Consider IP-whitelist in Traefik if public access required
-
-**Security Risk:** Currently SearXNG is publicly accessible without authentication or rate-limiting
+### Firecrawl API Security
+- [ ] Remove public Traefik exposure for Firecrawl API (only internal Docker network access needed)
 
 ---
 
@@ -32,3 +26,15 @@
 ## Features
 
 - [ ] Replace Jina reranker with RAG API reranker once LibreChat PR [#10574](https://github.com/danny-avila/LibreChat/pull/10574) is merged (adds `rerankerType: "simple"` support)
+
+### Model Specs Improvements
+
+- [ ] Fix vision model detection for "Upload to AI Provider" option
+  - Problem: Upload option shown for all OpenRouter models (provider-level), not model-level
+  - Solution: Create LibreChat issue/PR to add model-level vision detection, or use alternative provider
+- [ ] Add multilingual support for model descriptions
+  - Problem: Descriptions are single-language only (no i18n support)
+  - Solution: Create LibreChat feature request/PR for multilingual model descriptions
+- [ ] Fix custom icon theme support
+  - Problem: Custom icons (Data URIs/URLs) rendered as `<img>` tags, cannot use `currentColor` for theme adaptation
+  - Solution: Create LibreChat PR to render SVGs inline or add CSS variable support for icon colors
