@@ -32,8 +32,21 @@ interface Config {
 }
 
 // Configuration
+// Read roles.json from the source config directory (in Docker image at /app/config/roles.json)
+// The config directory is copied to /app/config/ during Docker build
 const configPath = join(__dirname, '../config/roles.json');
-const config: Config = JSON.parse(readFileSync(configPath, 'utf-8'));
+let config: Config;
+try {
+  config = JSON.parse(readFileSync(configPath, 'utf-8'));
+} catch (error) {
+  // Fallback: try absolute path in case __dirname resolution is different
+  const fallbackPath = '/app/config/roles.json';
+  try {
+    config = JSON.parse(readFileSync(fallbackPath, 'utf-8'));
+  } catch {
+    throw new Error(`Failed to read roles.json from ${configPath} or ${fallbackPath}: ${error}`);
+  }
+}
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/LibreChat';
 const DEFAULT_ADMINS = process.env.LIBRECHAT_DEFAULT_ADMINS || '';
