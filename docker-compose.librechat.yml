@@ -168,13 +168,27 @@ services:
                 model: "meta-llama/llama-3.2-90b-vision-instruct"
             
             # ==========================================
-            # Vision Models (Proprietary)
+            # Vision Models (Proprietary) - Chat Only
+            # ==========================================
+            - name: "google-gemini-2.5-flash-lite"
+              label: "Gemini 2.5 Flash Lite"
+              description: "Schnell und kostengünstig. Optimiert für schnelle Antworten bei guter Qualität. Unterstützt Vision. Von Google."
+              group: "Vision Models (Proprietary)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWV5ZS1pY29uIGx1Y2lkZS1leWUiPjxwYXRoIGQ9Ik0yLjA2MiAxMi4zNDhhMSAxIDAgMCAxIDAtLjY5NiAxMC43NSAxMC43NSAwIDAgMSAxOS44NzYgMCAxIDEgMCAwIDEgMCAuNjk2IDEwLjc1IDEwLjc1IDAgMCAxLTE5Ljg3NiAwIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjwvc3ZnPg=="
+              order: 1
+              preset:
+                endpoint: "OpenRouter"
+                endpointType: "custom"
+                model: "google/gemini-2.5-flash-lite"
+            
+            # ==========================================
+            # Universal Models (Proprietary) - Vision + Tools
             # ==========================================
             - name: "claude-sonnet-4.5"
               label: "Claude Sonnet 4.5"
-              description: "Eines der besten Modelle für komplexe Aufgaben und Programmierung. Optimiert für praktische Anwendungen. Unterstützt Vision. Von Anthropic."
-              group: "Vision Models (Proprietary)"
-              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWV5ZS1pY29uIGx1Y2lkZS1leWUiPjxwYXRoIGQ9Ik0yLjA2MiAxMi4zNDhhMSAxIDAgMCAxIDAtLjY5NiAxMC43NSAxMC43NSAwIDAgMSAxOS44NzYgMCAxIDEgMCAwIDEgMCAuNjk2IDEwLjc1IDEwLjc1IDAgMCAxLTE5Ljg3NiAwIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjwvc3ZnPg=="
+              description: "Eines der besten Modelle für komplexe Aufgaben und Programmierung. Optimiert für praktische Anwendungen. Unterstützt Vision und Tools. Von Anthropic."
+              group: "Universal Models (Proprietary)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJvdC1pY29uIGx1Y2lkZS1ib3QiPjxwYXRoIGQ9Ik0xMiA4VjRIOCIvPjxyZWN0IHdpZHRoPSIxNiIgaGVpZ2h0PSIxMiIgeD0iNCIgeT0iOCIgcng9IjIiLz48cGF0aCBkPSJNMiAxNGgyIi8+PHBhdGggZD0iTTIwIDE0aDIiLz48cGF0aCBkPSJNMTUgMTN2MiIvPjxwYXRoIGQ9Ik05IDEzdjIiLz48L3N2Zz4="
               order: 1
               webSearch: true
               fileSearch: true
@@ -183,24 +197,28 @@ services:
                 endpointType: "custom"
                 model: "anthropic/claude-sonnet-4.5"
             
-            - name: "google-gemini-2.5-flash-lite"
-              label: "Gemini 2.5 Flash Lite"
-              description: "Schnell und kostengünstig. Optimiert für schnelle Antworten bei guter Qualität. Unterstützt Vision. Von Google."
-              group: "Vision Models (Proprietary)"
-              order: 2
+            # ==========================================
+            # Text Models (Open Source) - Chat Only
+            # ==========================================
+            - name: "llama-3.1-8b"
+              label: "Llama 3.1 8B"
+              description: "Schnell und effizient. Gute Wahl für schnelle Antworten. Von Meta (Llama-Serie)."
+              group: "Text Models (Open Source)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWljb24gbHVjaWRlLW1lc3NhZ2Utc3F1YXJlIj48cGF0aCBkPSJNMjIgMTdhMiAyIDAgMCAxLTIgMkg2LjgyOGEyIDIgMCAwIDAtMS40MTQuNTg2bC0yLjIwMiAyLjIwMkEuNzEuNzEgMCAwIDEgMiAyMS4yODZWNWEyIDIgMCAwIDEgMi0yaDE2YTIgMiAwIDAgMSAyIDJ6Ii8+PC9zdmc+"
+              order: 1
               preset:
                 endpoint: "OpenRouter"
                 endpointType: "custom"
-                model: "google/gemini-2.5-flash-lite"
+                model: "meta-llama/llama-3.1-8b-instruct"
             
             # ==========================================
-            # Text Models (Open Source)
+            # Text Models with Tools (Open Source)
             # ==========================================
             - name: "deepseek-v3.2"
               label: "DeepSeek V3.2"
               description: "Kann sehr lange Gespräche führen und komplexe Aufgaben lösen. Sehr gut im logischen Denken. Von DeepSeek."
-              group: "Text Models (Open Source)"
-              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWljb24gbHVjaWRlLW1lc3NhZ2Utc3F1YXJlIj48cGF0aCBkPSJNMjIgMTdhMiAyIDAgMCAxLTIgMkg2LjgyOGEyIDIgMCAwIDAtMS40MTQuNTg2bC0yLjIwMiAyLjIwMkEuNzEuNzEgMCAwIDEgMiAyMS4yODZWNWEyIDIgMCAwIDEgMi0yaDE2YTIgMiAwIDAgMSAyIDJ6Ii8+PC9zdmc+"
+              group: "Text Models with Tools (Open Source)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJvdC1tZXNzYWdlLXNxdWFyZS1pY29uIGx1Y2lkZS1ib3QtbWVzc2FnZS1zcXVhcmUiPjxwYXRoIGQ9Ik0xMiA2VjJIOCIvPjxwYXRoIGQ9Ik0xNSAxMXYyIi8+PHBhdGggZD0iTTIgMTJoMiIvPjxwYXRoIGQ9Ik0yMCAxMmgyIi8+PHBhdGggZD0iTTIwIDE2YTIgMiAwIDAgMS0yIDJIOC44MjhhMiAyIDAgMCAwLTEuNDE0LjU4NmwtMi4yMDIgMi4yMDJBLjcxLjcxIDAgMCAxIDQgMjAuMjg2VjhhMiAyIDAgMCAxIDItMmgxMmEyIDIgMCAwIDEgMiAyeiIvPjxwYXRoIGQ9Ik05IDExdjIiLz48L3N2Zz4="
               order: 1
               webSearch: true
               fileSearch: true
@@ -212,7 +230,7 @@ services:
             - name: "llama-3.3-70b"
               label: "Llama 3.3 70B"
               description: "Sehr beliebt für allgemeine Gespräche und Aufgaben. Von Meta (Llama-Serie)."
-              group: "Text Models (Open Source)"
+              group: "Text Models with Tools (Open Source)"
               order: 2
               webSearch: true
               fileSearch: true
@@ -224,7 +242,7 @@ services:
             - name: "xiaomi-mimo-v2-flash"
               label: "MiMo-V2-Flash"
               description: "Kann sehr lange Gespräche führen. Besonders gut für Wissensthemen, Wissenschaft und Finanzen. Von Xiaomi."
-              group: "Text Models (Open Source)"
+              group: "Text Models with Tools (Open Source)"
               order: 3
               webSearch: true
               fileSearch: true
@@ -236,7 +254,7 @@ services:
             - name: "deepseek-chat-67b"
               label: "DeepSeek Chat 67B"
               description: "Sehr beliebt, besonders gut für Programmierung und Code-Erstellung. Von DeepSeek."
-              group: "Text Models (Open Source)"
+              group: "Text Models with Tools (Open Source)"
               order: 4
               webSearch: true
               fileSearch: true
@@ -245,24 +263,38 @@ services:
                 endpointType: "custom"
                 model: "deepseek/deepseek-chat"
             
-            - name: "llama-3.1-8b"
-              label: "Llama 3.1 8B"
-              description: "Schnell und effizient. Gute Wahl für schnelle Antworten. Von Meta (Llama-Serie)."
-              group: "Text Models (Open Source)"
-              order: 5
+            # ==========================================
+            # Text Models (Proprietary) - Chat Only
+            # ==========================================
+            - name: "openai-gpt5-mini"
+              label: "GPT-5 Mini"
+              description: "Schnell und effizient, dabei hochwertige Antworten. Optimiert für Geschwindigkeit. Von OpenAI (GPT-5-Serie)."
+              group: "Text Models (Proprietary)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWxvY2staWNvbiBsdWNpZGUtbWVzc2FnZS1zcXVhcmUtbG9jayI+PHBhdGggZD0iTTIyIDguNVY1YTIgMiAwIDAgMC0yLTJINGEyIDIgMCAwIDAtMiAydjE2LjI4NmEuNzEuNzEgMCAwIDAgMS4yMTIuNTAybDIuMjAyLTIuMjAyQTIgMiAwIDAgMSA2LjgyOCAxOUgxMCIvPjxwYXRoIGQ9Ik0yMCAxNXYtMmEyIDIgMCAwIDAtNCAwdjIiLz48cmVjdCB4PSIxNCIgeT0iMTUiIHdpZHRoPSI4IiBoZWlnaHQ9IjUiIHJ4PSIxIi8+PC9zdmc+"
+              order: 1
               preset:
                 endpoint: "OpenRouter"
                 endpointType: "custom"
-                model: "meta-llama/llama-3.1-8b-instruct"
+                model: "openai/gpt-5-mini"
+            
+            - name: "mistral-nemo"
+              label: "Mistral Nemo"
+              description: "Unterstützt mehrere Sprachen. Von Mistral und NVIDIA. Europäisches Unternehmen (französisch)."
+              group: "Text Models (Proprietary)"
+              order: 2
+              preset:
+                endpoint: "OpenRouter"
+                endpointType: "custom"
+                model: "mistralai/mistral-nemo"
             
             # ==========================================
-            # Text Models (Proprietary)
+            # Text Models with Tools (Proprietary)
             # ==========================================
             - name: "openai-gpt5-2"
               label: "GPT-5.2"
               description: "Sehr gut für komplexe Aufgaben und mehrstufige Problemlösung. Von OpenAI (GPT-5-Serie)."
-              group: "Text Models (Proprietary)"
-              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWxvY2staWNvbiBsdWNpZGUtbWVzc2FnZS1zcXVhcmUtbG9jayI+PHBhdGggZD0iTTIyIDguNVY1YTIgMiAwIDAgMC0yLTJINGEyIDIgMCAwIDAtMiAydjE2LjI4NmEuNzEuNzEgMCAwIDAgMS4yMTIuNTAybDIuMjAyLTIuMjAyQTIgMiAwIDAgMSA2LjgyOCAxOUgxMCIvPjxwYXRoIGQ9Ik0yMCAxNXYtMmEyIDIgMCAwIDAtNCAwdjIiLz48cmVjdCB4PSIxNCIgeT0iMTUiIHdpZHRoPSI4IiBoZWlnaHQ9IjUiIHJ4PSIxIi8+PC9zdmc+"
+              group: "Text Models with Tools (Proprietary)"
+              groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJvdC1tZXNzYWdlLXNxdWFyZS1pY29uIGx1Y2lkZS1ib3QtbWVzc2FnZS1zcXVhcmUiPjxwYXRoIGQ9Ik0xMiA2VjJIOCIvPjxwYXRoIGQ9Ik0xNSAxMXYyIi8+PHBhdGggZD0iTTIgMTJoMiIvPjxwYXRoIGQ9Ik0yMCAxMmgyIi8+PHBhdGggZD0iTTIwIDE2YTIgMiAwIDAgMS0yIDJIOC44MjhhMiAyIDAgMCAwLTEuNDE0LjU4NmwtMi4yMDIgMi4yMDJBLjcxLjcxIDAgMCAxIDQgMjAuMjg2VjhhMiAyIDAgMCAxIDItMmgxMmEyIDIgMCAwIDEgMiAyeiIvPjxwYXRoIGQ9Ik05IDExdjIiLz48L3N2Zz4="
               order: 1
               webSearch: true
               fileSearch: true
@@ -271,21 +303,11 @@ services:
                 endpointType: "custom"
                 model: "openai/gpt-5.2"
             
-            - name: "openai-gpt5-mini"
-              label: "GPT-5 Mini"
-              description: "Schnell und effizient, dabei hochwertige Antworten. Optimiert für Geschwindigkeit. Von OpenAI (GPT-5-Serie)."
-              group: "Text Models (Proprietary)"
-              order: 2
-              preset:
-                endpoint: "OpenRouter"
-                endpointType: "custom"
-                model: "openai/gpt-5-mini"
-            
             - name: "mistral-large-2411"
               label: "Mistral Large 2411"
               description: "Sehr beliebt bei europäischen Nutzern. Von Mistral. Europäisches Unternehmen (französisch)."
-              group: "Text Models (Proprietary)"
-              order: 3
+              group: "Text Models with Tools (Proprietary)"
+              order: 2
               webSearch: true
               fileSearch: true
               preset:
@@ -293,21 +315,11 @@ services:
                 endpointType: "custom"
                 model: "mistralai/mistral-large-2411"
             
-            - name: "mistral-nemo"
-              label: "Mistral Nemo"
-              description: "Unterstützt mehrere Sprachen. Von Mistral und NVIDIA. Europäisches Unternehmen (französisch)."
-              group: "Text Models (Proprietary)"
-              order: 4
-              preset:
-                endpoint: "OpenRouter"
-                endpointType: "custom"
-                model: "mistralai/mistral-nemo"
-            
             - name: "z-ai-glm-4.7"
               label: "GLM 4.7"
               description: "Sehr gut im logischen Denken und komplexen Aufgaben. Fortgeschrittenes Sprachverständnis. Von Z.AI."
-              group: "Text Models (Proprietary)"
-              order: 5
+              group: "Text Models with Tools (Proprietary)"
+              order: 3
               webSearch: true
               fileSearch: true
               preset:
