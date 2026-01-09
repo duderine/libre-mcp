@@ -1,6 +1,10 @@
 services:
   librechat-init:
     extends: { file: docker-compose.librechat.yml, service: librechat-init }
+    build:
+      context: ./packages/librechat-init
+      dockerfile: Dockerfile
+    pull_policy: build
     volumes:
       - mongodata:/mongo_data  # Production verwendet named volume statt bind mount
       - mongoconfig:/mongo_configdb
