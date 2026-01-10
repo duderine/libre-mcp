@@ -10,9 +10,9 @@
   - In Portainer: Stack → **Environment variables** (Advanced mode) → paste `stack.env` contents
 - **Deploy** the stack
 
-## Why `config-init` exists
+## Why `librechat-init` exists
 
-Portainer CE can be unreliable with bind-mounting a **single file** from a Git repo. We therefore generate `librechat.yaml` via an init container (`config-init`) into a **named volume** (`librechat-config`).
+Portainer CE can be unreliable with bind-mounting a **single file** from a Git repo. We therefore generate `librechat.yaml` via an init container (`librechat-init`) into a **named volume** (`librechat-config`). The `librechat-init` service also handles file permissions setup and MongoDB role initialization.
 
 ## Networking (important)
 
@@ -23,4 +23,4 @@ Portainer CE can be unreliable with bind-mounting a **single file** from a Git r
 ## Quick checks
 
 - Config present: `docker exec LibreChat cat /app/config/librechat.yaml`
-- Init logs: `docker logs librechat-config-init`
+- Init logs: `docker logs librechat-init`
