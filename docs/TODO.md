@@ -25,6 +25,12 @@
 
 ## Features
 
+### Custom Roles Support
+- [ ] Add API endpoint and frontend support for custom roles
+  - Problem: Custom roles (e.g., DEVELOPER) are created in MongoDB but not visible in AdminSettingsDialog (only USER/ADMIN hardcoded)
+  - Solution: Create LibreChat PR to add `GET /api/roles` endpoint and update `AdminSettingsDialog` to load roles dynamically
+  - Repository: [danny-avila/LibreChat](https://github.com/danny-avila/LibreChat)
+
 ### Agents
 - [ ] Create agents and make them available to regular users only
   - Goal: Ensure provided tools function correctly and can be used, and that underlying LLM models are tested for their intended use cases
