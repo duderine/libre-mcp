@@ -6,6 +6,13 @@ This document describes the search engines and features enabled in our SearXNG i
 
 ### General Search Engines
 
+#### Google (`go`)
+- **Status**: Enabled
+- **Purpose**: Google's main search engine
+- **API Key**: Not required
+- **Categories**: General web search
+- **Shortcut**: `!go <query>` - Search Google directly
+
 #### Bing (`bi`)
 - **Status**: Enabled
 - **Purpose**: Microsoft's search engine as additional search provider

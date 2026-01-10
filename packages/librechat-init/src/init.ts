@@ -13,12 +13,45 @@ const CONFIG_TARGET = '/app/config/librechat.yaml';
 const CONFIG_DIR = '/app/config';
 
 /**
- * Convert $${VAR} placeholders to ${VAR} so LibreChat can resolve them at runtime.
- * Docker Compose escapes ${VAR} to $${VAR} in YAML files, so we need to convert them back.
+ * Environment variables that must be resolved at initialization time.
+ * These variables are used in interface configuration sections that LibreChat
+ * reads once at startup and does not re-evaluate at runtime.
+ *
+ * Variables not in this list are converted from $${VAR} to ${VAR} format
+ * so LibreChat can resolve them dynamically at runtime (e.g., webSearch config).
+ */
+const INIT_TIME_ENV_VARS = [
+  'LIBRECHAT_CUSTOM_WELCOME',
+  'LIBRECHAT_PRIVACY_POLICY_URL',
+  'LIBRECHAT_TERMS_OF_SERVICE_URL',
+] as const;
+
+/**
+ * Resolves environment variable placeholders in YAML configuration content.
+ *
+ * Two-phase resolution:
+ * 1. Resolves init-time variables (replaces $${VAR} with actual values)
+ * 2. Converts remaining $${VAR} to ${VAR} for LibreChat runtime resolution
+ *
+ * @param content - Raw YAML content with $${VAR} placeholders
+ * @returns YAML content with resolved placeholders
  */
 function resolveConfigPlaceholders(content: string): string {
-  // Convert all $${VAR} to ${VAR} - LibreChat will resolve them at runtime
-  return content.replace(/\$\$\{([^}]+)\}/g, '${$1}');
+  let resolved = content;
+
+  // Phase 1: Resolve init-time variables with actual environment values
+  for (const varName of INIT_TIME_ENV_VARS) {
+    const envValue = process.env[varName];
+    // Replace all occurrences of $${VAR} with actual value (or empty string if unset)
+    const regex = new RegExp(`\\$\\$\\{${varName}\\}`, 'g');
+    resolved = resolved.replace(regex, envValue ?? '');
+  }
+
+  // Phase 2: Convert remaining $${VAR} to ${VAR} for LibreChat runtime resolution
+  // Docker Compose escapes ${VAR} to $${VAR} in YAML, so we convert them back
+  resolved = resolved.replace(/\$\$\{([^}]+)\}/g, '${$1}');
+
+  return resolved;
 }
 
 async function main() {

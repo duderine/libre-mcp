@@ -52,6 +52,8 @@ services:
         # Enable additional search engines
         engines:
           # General search engines
+          - name: google
+            disabled: false
           - name: bing
             disabled: false
           # IT & Development
