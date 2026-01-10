@@ -1,0 +1,26 @@
+---
+alwaysApply: true
+---
+# Documentation Rules
+
+## Language & Format
+- Write all documentation in English (code, comments, descriptions)
+- Use Markdown format (.md files)
+- Place all documentation files in the `docs/` folder
+
+## Content Guidelines
+- Maximize information density: include essential facts, omit filler
+- Document important information concisely without unnecessary verbosity
+- Focus on actionable, technical details over narrative explanations
+- Include code examples, configuration snippets, and command-line instructions where relevant
+
+## File Management
+- When creating new .md files, always update `docs/README.md` to include references/links
+- Maintain `docs/README.md` as the entry point and index for all documentation
+- Use descriptive filenames that clearly indicate content scope
+
+## Structure Standards
+- Use clear hierarchical headings (H1 for main title, H2 for major sections, H3 for subsections)
+- Include table of contents for documents longer than 3 sections
+- Add code blocks with appropriate language tags for syntax highlighting
+- Use lists for enumerations, requirements, or step-by-step instructions

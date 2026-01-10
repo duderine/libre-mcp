@@ -11,6 +11,7 @@ This project includes the following git submodules:
 - **dev/rag_api** - RAG API service
 - **dev/librechat-doc** - LibreChat documentation
 - **dev/firecrawl** - Firecrawl web scraping service
+- **dev/searxng** - SearXNG metasearch engine
 
 ## Setup
 

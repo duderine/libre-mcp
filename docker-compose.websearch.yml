@@ -12,7 +12,13 @@ services:
         echo "Generating SearXNG configuration..."
         
         cat > /etc/searxng/settings.yml << 'CONFIG_EOF'
-        use_default_settings: true
+        use_default_settings:
+          engines:
+            # Remove problematic engines that fail to initialize
+            # Note: radio browser is kept enabled - may fail locally but work in production
+            remove:
+              - ahmia
+              - torch
         server:
           # Secret key from environment variable for security
           secret_key: "${SEARXNG_SECRET_KEY}"
@@ -41,8 +47,43 @@ services:
             - "172.21.0.0/16"  # Docker networks
         CONFIG_EOF
         
+        # Create minimal limiter.toml to avoid warning (limiter is disabled, but file is still checked)
+        cat > /etc/searxng/limiter.toml << 'LIMITER_EOF'
+        [botdetection]
+        ipv4_prefix = 32
+        ipv6_prefix = 48
+        trusted_proxies = [
+          '127.0.0.0/8',
+          '::1',
+          '172.16.0.0/12',
+          '10.0.0.0/8',
+          '192.168.0.0/16',
+          '172.17.0.0/16',
+          '172.18.0.0/16',
+          '172.19.0.0/16',
+          '172.20.0.0/16',
+          '172.21.0.0/16',
+        ]
+        [botdetection.ip_limit]
+        filter_link_local = false
+        link_token = false
+        [botdetection.ip_lists]
+        block_ip = []
+        pass_ip = []
+        pass_searxng_org = true
+        LIMITER_EOF
+        
+        # Set permissions so SearXNG can read the files (read-only volume)
+        # SearXNG runs as user searxng (UID 977), so make files readable by all
+        chmod 644 /etc/searxng/settings.yml
+        chmod 644 /etc/searxng/limiter.toml
+        
         echo "SearXNG configuration generated successfully"
+        echo "Settings:"
         cat /etc/searxng/settings.yml
+        echo ""
+        echo "Limiter config:"
+        cat /etc/searxng/limiter.toml
 
   searxng:
     container_name: searxng

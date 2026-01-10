@@ -42,7 +42,9 @@ docker compose up -d
 ```
 
 #### Development (Local Builds)
-Builds LibreChat and RAG components from local source.
+Builds images from git submodules in `/dev` for local development and PR testing.
+See the [Development Guide](DEVELOPMENT.md) for detailed instructions.
+
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ```

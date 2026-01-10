@@ -1,0 +1,64 @@
+---
+name: docker-env
+description: Docker environment variables and compose file structure
+---
+## Core Principle
+Identical compose structure for local and production. Differences: environment files and volume strategies.
+
+## Critical Rules
+
+### 1. Environment Variables
+- **Local**: `env_file: .env` in compose files
+- **Production**: `--env-file .env.prod` OR Portainer environment variables (Advanced mode)
+- **Portainer**: Ignores `env_file` → all services must accept env vars via `environment:` section
+- **Generate**: `npm run setup:prod` creates `.env.prod` before Portainer deployment
+
+### 2. Volume Strategy
+- **Local**: Bind mounts (`./data-node`, `./uploads`, `./logs`, `./meili_data_v1.12`)
+- **Production**: Named volumes only (`mongodata`, `mongoconfig`, `librechat-config`, `searxng-config`)
+- **Config files**: NEVER bind-mount in production. Use init containers writing to named volumes
+
+### 3. Network Architecture
+- **traefik-net**: Local = bridge, Production = external `loadbalancer-net` (must exist before deploy)
+- **app-net**: Always bridge (internal services: LibreChat ↔ MongoDB/Meilisearch/RAG/SearXNG/Firecrawl)
+- **firecrawl-network**: Always bridge (Firecrawl internal)
+- **Rule**: Traefik-routed services → `traefik-net`; internal services → `app-net` only
+
+### 4. Compose File Structure
+- **Entry points**: `docker-compose.yml` (standard), `docker-compose.dev.yml` (local builds), `docker-compose.prod.yml` (production)
+- **Extended files**: `docker-compose.librechat.yml`, `docker-compose.rag.yml`, `docker-compose.websearch.yml`, `docker-compose.traefik.yml`, `docker-compose.openwebui.yml` (never run standalone)
+- **Portainer**: Use `docker-compose.prod.yml` as compose path
+
+### 5. Init Services
+- **librechat-init**: Unified init service (replaces old `config-init` + `setup-permissions`)
+  - Generates `librechat.yaml` → `librechat-config` volume
+  - Sets file permissions (UID/GID)
+  - Initializes MongoDB roles
+  - Must complete before `api` service starts
+- **searxng-config-init**: Generates `settings.yml` → `searxng-config` volume
+- **Dependencies**: `depends_on` with `condition: service_completed_successfully`
+
+### 6. Service-Specific Differences
+- **MongoDB**: Local = `./data-node` bind mount; Production = `mongodata` named volume
+- **LibreChat API**: Reads `/app/config/librechat.yaml` from `librechat-config` volume (read-only)
+- **SearXNG**: Production = internal only (not exposed via Traefik)
+- **Traefik**: Production requires external `loadbalancer-net`; local creates `traefik-net` bridge
+- **Local dev**: `docker-compose.dev.yml` builds local images (`librechat:local`, `rag_api:local`)
+- **Production**: Official images from registries, no local builds
+
+### 7. Portainer Constraints
+- **No bind mounts from Git**: Portainer CE creates empty directories for bind-mounted files
+- **Environment variables**: Paste into Portainer UI (Advanced mode), not via `env_file` directive
+- **External networks**: Must exist before deployment (`docker network create loadbalancer-net`)
+
+### 8. Anti-Patterns
+- ❌ Bind-mount config files in `docker-compose.prod.yml`
+- ❌ Rely solely on `env_file` directive (Portainer ignores it)
+- ❌ Create `traefik-net` in production compose (must be external)
+- ❌ Hardcode localhost/127.0.0.1 in service URLs (use service names)
+- ❌ Mix volume strategies (bind mounts + named volumes for same data)
+
+### 9. Testing
+
+- **Local**: Use `npm run setup:yes && docker compose down -v && sleep 3 && docker compose up -d` to make sure all services are restarted and all changes are applied.
+- **Production**: `docker compose --env-file .env.prod -f docker-compose.prod.yml up`

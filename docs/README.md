@@ -20,6 +20,10 @@ New to the project? Start here:
 - **[Portainer Configuration](PORTAINER-CONFIG.md)** - Guide for deploying via Portainer
 - **[Getting Started](GETTING_STARTED.md)** - Complete setup and deployment instructions
 
+## Development
+
+- **[Development Guide](DEVELOPMENT.md)** - Working with git submodules and the development stack
+
 ## Project Management
 
 - **[TODO](TODO.md)** - Current tasks and improvements

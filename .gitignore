@@ -23,7 +23,6 @@ tmp/
 Thumbs.db
 *.swp
 *.swo
-.cursor/
 
 node_modules/
 package-lock.json
