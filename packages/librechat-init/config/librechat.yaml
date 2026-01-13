@@ -98,7 +98,7 @@ endpoints:
       - "ocr"
       - "tools"
       - "web_search"
-  
+
   custom:
     - name: OpenRouter
       apiKey: "$${OPENROUTER_KEY}"
@@ -197,20 +197,6 @@ modelSpecs:
         model: "anthropic/claude-sonnet-4.5"
     
     # ==========================================
-    # Text Models (Open Source) - Chat Only
-    # ==========================================
-    - name: "llama-3.1-8b"
-      label: "Llama 3.1 8B"
-      description: "Schnell und effizient. Gute Wahl für schnelle Antworten. Von Meta (Llama-Serie)."
-      group: "Text Models (Open Source)"
-      groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWljb24gbHVjaWRlLW1lc3NhZ2Utc3F1YXJlIj48cGF0aCBkPSJNMjIgMTdhMiAyIDAgMCAxLTIgMkg2LjgyOGEyIDIgMCAwIDAtMS40MTQuNTg2bC0yLjIwMiAyLjIwMkEuNzEuNzEgMCAwIDEgMiAyMS4yODZWNWEyIDIgMCAwIDEgMi0yaDE2YTIgMiAwIDAgMSAyIDJ6Ii8+PC9zdmc+"
-      order: 1
-      preset:
-        endpoint: "OpenRouter"
-        endpointType: "custom"
-        model: "meta-llama/llama-3.1-8b-instruct"
-    
-    # ==========================================
     # Text Models with Tools (Open Source)
     # ==========================================
     - name: "deepseek-v3.2"
@@ -263,29 +249,17 @@ modelSpecs:
         endpointType: "custom"
         model: "deepseek/deepseek-chat"
     
-    # ==========================================
-    # Text Models (Proprietary) - Chat Only
-    # ==========================================
-    - name: "openai-gpt5-mini"
-      label: "GPT-5 Mini"
-      description: "Schnell und effizient, dabei hochwertige Antworten. Optimiert für Geschwindigkeit. Von OpenAI (GPT-5-Serie)."
-      group: "Text Models (Proprietary)"
-      groupIcon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2Utc3F1YXJlLWxvY2staWNvbiBsdWNpZGUtbWVzc2FnZS1zcXVhcmUtbG9jayI+PHBhdGggZD0iTTIyIDguNVY1YTIgMiAwIDAgMC0yLTJINGEyIDIgMCAwIDAtMiAydjE2LjI4NmEuNzEuNzEgMCAwIDAgMS4yMTIuNTAybDIuMjAyLTIuMjAyQTIgMiAwIDAgMSA2LjgyOCAxOUgxMCIvPjxwYXRoIGQ9Ik0yMCAxNXYtMmEyIDIgMCAwIDAtNCAwdjIiLz48cmVjdCB4PSIxNCIgeT0iMTUiIHdpZHRoPSI4IiBoZWlnaHQ9IjUiIHJ4PSIxIi8+PC9zdmc+"
-      order: 1
+    - name: "llama-3.1-8b"
+      label: "Llama 3.1 8B"
+      description: "Schnell und effizient. Gute Wahl für schnelle Antworten. Unterstützt Tool Calling. Von Meta (Llama-Serie)."
+      group: "Text Models with Tools (Open Source)"
+      order: 5
+      webSearch: true
+      fileSearch: true
       preset:
         endpoint: "OpenRouter"
         endpointType: "custom"
-        model: "openai/gpt-5-mini"
-    
-    - name: "mistral-nemo"
-      label: "Mistral Nemo"
-      description: "Unterstützt mehrere Sprachen. Von Mistral und NVIDIA. Europäisches Unternehmen (französisch)."
-      group: "Text Models (Proprietary)"
-      order: 2
-      preset:
-        endpoint: "OpenRouter"
-        endpointType: "custom"
-        model: "mistralai/mistral-nemo"
+        model: "meta-llama/llama-3.1-8b-instruct"
     
     # ==========================================
     # Text Models with Tools (Proprietary)
