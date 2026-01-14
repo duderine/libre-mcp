@@ -22,6 +22,29 @@ Portainer CE can be unreliable with bind-mounting a **single file** from a Git r
 - `app-net` is the internal network for service-to-service traffic (LibreChat ↔ MongoDB/Meilisearch/RAG/WebSearch)
 - **MongoDB does not need to be on `loadbalancer-net`**; it must be reachable from LibreChat on `app-net`
 
+## GitOps Updates (Automatic Updates via Webhooks)
+
+Enable automatic stack updates from GitHub using webhooks for immediate deployment when changes are pushed.
+
+### Setup
+
+1. **Enable GitOps in Portainer:**
+   - Go to **Stacks** → Select your stack → **Editor**
+   - Scroll to **GitOps updates** section
+   - Enable **Automatic updates**
+   - Select **Webhook** as update mechanism
+   - **Copy the webhook URL** (e.g., `https://portainer.example.com/api/webhooks/<webhook-id>`)
+
+2. **Configure GitHub Webhook:**
+   - Go to your GitHub repository → **Settings** → **Webhooks** → **Add webhook**
+   - **Payload URL**: Paste the webhook URL from Portainer
+   - **Content type**: `application/json`
+   - **Events**: Select **Just the push event**
+   - **Active**: ✓ Enabled
+   - Click **Add webhook**
+
+When changes are pushed to the repository, Portainer automatically pulls the latest code and updates the stack. All volumes are preserved (data is not lost).
+
 ## Quick checks
 
 - Config present: `docker exec <STACK_NAME>-librechat cat /app/config/librechat.yaml` (e.g., `prod-librechat` or `dev-librechat`)

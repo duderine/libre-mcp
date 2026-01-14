@@ -17,7 +17,7 @@ New to the project? Start here:
 
 ## Deployment & Configuration
 
-- **[Portainer Configuration](PORTAINER-CONFIG.md)** - Guide for deploying via Portainer
+- **[Portainer Configuration](PORTAINER-CONFIG.md)** - Guide for deploying via Portainer, including GitOps automatic updates
 - **[Getting Started](GETTING_STARTED.md)** - Complete setup and deployment instructions
 - **[SearXNG Engines](SEARXNG_ENGINES.md)** - Configuration and usage of SearXNG search engines
 
