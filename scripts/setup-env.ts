@@ -24,6 +24,47 @@ const DEV_EXAMPLE_FILE = path.join(ROOT_DIR, 'env.dev.example');
 const genSecret = (length: number = 32): string => crypto.randomBytes(length).toString('hex');
 
 /**
+ * Generate a random base64 string
+ */
+const genBase64Secret = (length: number = 32): string => crypto.randomBytes(length).toString('base64');
+
+/**
+ * Generate a secure password meeting common requirements:
+ * - At least 1 uppercase letter
+ * - At least 1 lowercase letter
+ * - At least 1 number
+ * - Minimum length: 8 characters
+ */
+const genPassword = (length: number = 16): string => {
+    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const all = uppercase + lowercase + numbers;
+    
+    // Ensure at least one of each required character type
+    let password = '';
+    password += uppercase[Math.floor(Math.random() * uppercase.length)];
+    password += lowercase[Math.floor(Math.random() * lowercase.length)];
+    password += numbers[Math.floor(Math.random() * numbers.length)];
+    
+    // Fill the rest randomly
+    for (let i = password.length; i < length; i++) {
+        password += all[Math.floor(Math.random() * all.length)];
+    }
+    
+    // Shuffle the password
+    return password.split('').sort(() => Math.random() - 0.5).join('');
+};
+
+/**
+ * Generate a random username with optional prefix
+ */
+const genUsername = (prefix: string = 'admin'): string => {
+    const randomSuffix = crypto.randomBytes(4).toString('hex');
+    return `${prefix}-${randomSuffix}`;
+};
+
+/**
  * Check if a value contains variable expansions (e.g., ${VAR_NAME})
  */
 const containsVariableExpansion = (value: string): boolean => {
@@ -54,7 +95,13 @@ const AUTO_GENERATED: Record<string, () => string> = {
     'LIBRECHAT_CREDS_IV': () => genSecret(8),   // 16 hex chars = 8 bytes
     'LIBRECHAT_MEILI_MASTER_KEY': () => genSecret(16),
     'SEARXNG_SECRET_KEY': () => genSecret(32),
+    'LIBRECHAT_SEARXNG_API_KEY': () => genSecret(32),
     'FIRECRAWL_BULL_AUTH_KEY': () => genSecret(16),
+    // n8n
+    'N8N_ENCRYPTION_KEY': () => genBase64Secret(32), // 32 bytes = 44 base64 chars
+    'N8N_POSTGRES_PASSWORD': () => genPassword(16),
+    'N8N_OWNER_EMAIL': () => `admin-${crypto.randomBytes(4).toString('hex')}@n8n.local`,
+    'N8N_OWNER_PASSWORD': () => genPassword(16),
 };
 
 type PromptType = 'input' | 'password';
@@ -81,12 +128,12 @@ const PROMPTS: Record<string, PromptConfig> = {
     'LIBRECHAT_MONGO_DATABASE': { message: 'Mongo Database Name:', type: 'input', defaultGen: () => 'librechat' },
 
     // VectorDB
-    'LIBRECHAT_VECTORDB_PASSWORD': { message: 'VectorDB (Postgres) Password:', type: 'password', defaultGen: () => genSecret(16) },
+    'LIBRECHAT_VECTORDB_PASSWORD': { message: 'VectorDB (Postgres) Password:', type: 'password', defaultGen: () => genPassword(16) },
 
     // Firecrawl
-    'FIRECRAWL_POSTGRES_PASSWORD': { message: 'Firecrawl Postgres Password:', type: 'password', defaultGen: () => genSecret(16) },
+    'FIRECRAWL_POSTGRES_PASSWORD': { message: 'Firecrawl Postgres Password:', type: 'password', defaultGen: () => genPassword(16) },
     'FIRECRAWL_RABBITMQ_USER': { message: 'Firecrawl RabbitMQ Username:', type: 'input', defaultGen: () => 'firecrawl' },
-    'FIRECRAWL_RABBITMQ_PASSWORD': { message: 'Firecrawl RabbitMQ Password:', type: 'password', defaultGen: () => genSecret(16) },
+    'FIRECRAWL_RABBITMQ_PASSWORD': { message: 'Firecrawl RabbitMQ Password:', type: 'password', defaultGen: () => genPassword(16) },
 
     // Email (Production only)
     'EMAIL_PASSWORD': { message: 'SendGrid API Key (for email verification):', type: 'password', prodOnly: true },
