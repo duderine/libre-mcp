@@ -2,9 +2,7 @@ name: Build and Push MCP NPM Search Image
 
 on:
   push:
-    branches:
-      - feat/agents
-      - main
+    branches: ['**']
     paths:
       - dev/npm-search-mcp/**
       - .github/workflows/build-mcp-npm-search.yml
@@ -39,7 +37,7 @@ jobs:
         with:
           images: ghcr.io/faktenforum/mcp-npm-search
           tags: |
-            type=ref,event=branch
+            type=ref,event=branch,enable={{is_not_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=dev,enable={{is_not_default_branch}}
 

@@ -2,9 +2,7 @@ name: Build and Push MCP StackOverflow Image
 
 on:
   push:
-    branches:
-      - feat/agents
-      - main
+    branches: ['**']
     paths:
       - dev/stackoverflow-mcp/**
       - .github/workflows/build-mcp-stackoverflow.yml
@@ -39,7 +37,7 @@ jobs:
         with:
           images: ghcr.io/faktenforum/mcp-stackoverflow
           tags: |
-            type=ref,event=branch
+            type=ref,event=branch,enable={{is_not_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=dev,enable={{is_not_default_branch}}
 

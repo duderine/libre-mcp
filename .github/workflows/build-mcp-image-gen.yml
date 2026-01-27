@@ -2,9 +2,7 @@ name: Build and Push MCP Image Generation Image
 
 on:
   push:
-    branches:
-      - feat/mcp-image-generation
-      - main
+    branches: ['**']
     paths:
       - packages/mcp-image-gen/**
       - .github/workflows/build-mcp-image-gen.yml
@@ -37,7 +35,7 @@ jobs:
         with:
           images: ghcr.io/faktenforum/mcp-image-gen
           tags: |
-            type=ref,event=branch
+            type=ref,event=branch,enable={{is_not_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=dev,enable={{is_not_default_branch}}
 
