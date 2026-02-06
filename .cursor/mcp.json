@@ -2,11 +2,7 @@
   "mcpServers": {
     "mongodb-librechat": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mongodb-mcp-server@latest",
-        "--readOnly"
-      ],
+      "args": ["-y", "mongodb-mcp-server@latest", "--readOnly"],
       "env": {
         "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/LibreChat"
       }
@@ -20,6 +16,7 @@
     "db-timetable": { "url": "http://localhost:3007/mcp" },
     "stackoverflow": { "url": "http://localhost:3008/mcp" },
     "npm-search": { "url": "http://localhost:3009/mcp" },
+    "chefkoch": { "url": "http://localhost:3014/mcp" },
     "ytptube": { "url": "http://localhost:3010/mcp" },
     "youtube-transcript": { "url": "http://localhost:3011/mcp" },
     "docs": { "url": "http://localhost:6280/mcp" }
