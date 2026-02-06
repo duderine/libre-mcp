@@ -691,6 +691,7 @@ mcpSettings:
     - 'mcp-npm-search'           # MCP npm Search service (Docker network)
     - 'mcp-ytptube'             # MCP YTPTube (YTPTube + Scaleway STT)
     - 'mcp-youtube-transcript'  # MCP YouTube Transcript (youtube-transcript-api)
+    - 'mcp-docs'                # MCP Docs (Grounded Docs) service (Docker network)
     - 'api.githubcopilot.com'   # GitHub MCP Server (remote hosted)
     - 'mcp.mapbox.com'           # Mapbox MCP Server (remote hosted)
     # - '*.example.com'           # Wildcard subdomain
@@ -747,6 +748,17 @@ mcpServers:
     startup: true
     serverInstructions: true
 
+  docs:
+    type: streamable-http
+    url: http://mcp-docs:6280/mcp
+    title: Dokumentation durchsuchen
+    description: Öffentlich verfügbare Dokumentation durchsuchen
+    iconPath: /images/mcp-docs-icon.svg
+    initTimeout: 120000
+    chatMenu: true
+    startup: true
+    serverInstructions: true
+
   playwright:
     type: streamable-http
     url: http://mcp-playwright:3006/mcp
@@ -766,7 +778,7 @@ mcpServers:
     description: Aktuelle Fahrpläne, Stationssuche und Zugverbindungen der Deutschen Bahn
     iconPath: /images/mcp-db-timetable-icon.svg
     initTimeout: 120000
-    chatMenu: false
+    chatMenu: true
     startup: true
     serverInstructions: true
 
@@ -819,13 +831,13 @@ mcpServers:
     type: streamable-http
     url: https://api.githubcopilot.com/mcp/
     title: GitHub
-    description: Repository-Verwaltung, Issues, Pull Requests und Code-Analyse
+    description: Repositories, Issues, Pull Requests und Code-Analyse
     iconPath: /images/mcp-github-icon.svg
     headers:
       Authorization: "Bearer ${MCP_GITHUB_PAT}"
       X-MCP-Readonly: "true"
     initTimeout: 120000
-    chatMenu: false
+    chatMenu: true
     startup: true
     serverInstructions: true
 
@@ -839,21 +851,21 @@ mcpServers:
       Authorization: "Bearer ${MCP_MAPBOX_ACCESS_TOKEN}"
     initTimeout: 120000
     timeout: 150000
-    chatMenu: false
+    chatMenu: true
     startup: true
     serverInstructions: true
 
   # Web scraping (scrape, search, map, crawl, extract). Not shown in chat dropdown; available for agents.
-  firecrawl:
-    type: streamable-http
-    url: http://mcp-firecrawl:3003/mcp
-    title: Web Scraping
-    description: Webseiten scrapen, durchsuchen und analysieren
-    iconPath: /images/mcp-firecrawl-icon.svg
-    initTimeout: 120000
-    chatMenu: false
-    startup: false
-    serverInstructions: true
+  # firecrawl:
+  #   type: streamable-http
+  #   url: http://mcp-firecrawl:3003/mcp
+  #   title: Web Scraping
+  #   description: Webseiten scrapen, durchsuchen und analysieren
+  #   iconPath: /images/mcp-firecrawl-icon.svg
+  #   initTimeout: 120000
+  #   chatMenu: false
+  #   startup: false
+  #   serverInstructions: true
 
 # n8n MCP Server Integration (Future - disabled)
 # To integrate n8n workflows with LibreChat Agents via MCP:

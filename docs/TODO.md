@@ -72,6 +72,13 @@
 - [ ] Improve server-side video access (geo/bot blocking)
   - Status: Works locally; Video-Transkripte agent is in code with `public: false`. On Hetzner, optional Webshare proxy or FlareSolverr; see [YTPTUBE_FUTURE_WORK.md](wip/YTPTUBE_FUTURE_WORK.md) for FlareSolverr and office Pi / reverse-SSH-proxy ideas for later.
 
+### MCP Docs (Grounded Docs)
+
+- [ ] Open PR for configurable embedding dimension (fork branch `vector-dimension`)
+  - Upstream [arabold/docs-mcp-server](https://github.com/arabold/docs-mcp-server): support configurable `documents_vec` for Scaleway (3584), OpenRouter (1536). Fork [faktenforum/docs-mcp-server](https://github.com/faktenforum/docs-mcp-server); PR `vector-dimension` → `arabold/docs-mcp-server:main`.
+- [ ] Reuse Firecrawl playwright-service for docs-mcp-server browser rendering
+  - Optional remote Playwright mode (e.g. `MCP_DOCS_PLAYWRIGHT_URL`): docs-mcp calls playwright-service `POST /scrape`, feed HTML into existing pipeline. Single browser pool, no Chromium in docs-mcp image. Risk: Firecrawl contract may change. Ref: [MCP_DOCS.md](MCP_DOCS.md), `dev/firecrawl/apps/playwright-service-ts`.
+
 ### MCP Tools
 
 - [x] Fix MCP image generation tools sending artifacts to non-vision models
